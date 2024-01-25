@@ -1,9 +1,28 @@
 import Image from 'next/image'
 import styles from './page.module.css'
 
+import { Amplify } from 'aws-amplify';
+import config from '@/amplifyconfiguration.json';
+
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '@/amplify/data/resource'; // Path to your backend resource definition
+
+Amplify.configure(config);
+
+const client = generateClient<Schema>();
+
+// Now you should be able to make CRUDL operations with the
+// Data client
+async function fetchTodos() {
+  const { data: todos, errors } = await client.models.Todo.list();
+}
+
+
+
 export default function Home() {
   return (
     <main className={styles.main}>
+      <h1>HELLO!</h1>
       <div className={styles.description}>
         <p>
           Get started by editing&nbsp;
